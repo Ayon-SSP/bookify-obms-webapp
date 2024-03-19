@@ -1,4 +1,5 @@
 package com.bookify.model;
+
 /*  
  * Represents a category of books.
  * @Author: Ayon-SSP
@@ -6,7 +7,6 @@ package com.bookify.model;
  * @param categoryId The ID to set. Must match the pattern 'bc[0-9]{5}'.
  * @throws IllegalArgumentException if the provided category ID is null or does not match the expected pattern.
  */
-
 public class BookCategory implements Comparable<BookCategory> {
     private String categoryId;
     private String categoryName;

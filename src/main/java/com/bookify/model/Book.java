@@ -4,6 +4,21 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * Represents a book in the library.
+ * @author @Ayon-SSP
+ * 
+ * @param bookId The unique identifier for the book. Must match the pattern 'bo[0-9]{5}'. 
+ * @param author The Author object representing the author of the book.
+ * @param category The BookCategory object representing the category of the book.
+ * @param genres The Set of Genre objects representing the genres of the book.
+ * @params bookTitle, bookDescription, bookPublishDate, bookPrice, discontinued, bookPages, bookDiscount, availableQuantity, bookLanguage, bookPublisher, bookIsbn.
+ * @param bookCoverImage The cover image of the book.
+ * @param userReviews The ArrayList of UserReview objects representing the user reviews for the book.
+ * @methods get/setBookId, set/getAuthor, set/getCategory, set/getGenres, set/add/removeGenre, get/setBookCoverImage, getUserReviews, setUserReviews, addUserReview, removeUserReview.
+ * 
+ * @throws IllegalArgumentException if any of the parameters do not meet their respective constraints.
+ */
 public class Book implements Comparable<Book> {
     private String bookId;
     private Author author;

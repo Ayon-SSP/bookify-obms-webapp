@@ -1,5 +1,12 @@
 package com.bookify.model;
 
+/*  
+ * Represents a genre of books.
+ * @author @Ayon-SSP
+ * 
+ * @param genreId The ID to set. Must match the pattern 'ge[0-9]{5}'.
+ * @params genreName, genreDescription, genreImage.
+ */
 public class Genre implements Comparable<Genre> {
     private String genreId;
     private String genreName;
