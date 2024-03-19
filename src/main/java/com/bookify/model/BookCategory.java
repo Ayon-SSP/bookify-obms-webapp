@@ -4,6 +4,9 @@ package com.bookify.model;
  * Represents a category of books.
  * @Author: Ayon-SSP
  * 
+ * @Entity
+ * @Table(name = "tbl_book_category")
+ * 
  * @param categoryId The ID to set. Must match the pattern 'bc[0-9]{5}'.
  * @throws IllegalArgumentException if the provided category ID is null or does not match the expected pattern.
  */

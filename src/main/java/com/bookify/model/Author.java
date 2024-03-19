@@ -4,6 +4,9 @@ package com.bookify.model;
  * Represents an author of books.
  * @author @Ayon-SSP
  * 
+ * @Entity
+ * @Table(name = "tbl_author")
+ * 
  * @param authorId The ID to set. Must match the pattern 'au[0-9]{5}'.
  * @params authorName, authorBio, authorScore, authorImage, authorBirthDate.
  * @throws IllegalArgumentException if the provided author ID is null or does not match the expected pattern.

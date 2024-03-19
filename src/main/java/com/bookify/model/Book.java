@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Set;
 
-/**
+/*
  * Represents a book in the library.
  * @author @Ayon-SSP
+ * 
+ * @Entity
+ * @Table(name = "tbl_book")
  * 
  * @param bookId The unique identifier for the book. Must match the pattern 'bo[0-9]{5}'. 
  * @param author The Author object representing the author of the book.

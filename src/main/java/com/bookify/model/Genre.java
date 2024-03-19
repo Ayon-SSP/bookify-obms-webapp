@@ -4,6 +4,9 @@ package com.bookify.model;
  * Represents a genre of books.
  * @author @Ayon-SSP
  * 
+ * @Entity
+ * @Table(name = "tbl_genre")
+ * 
  * @param genreId The ID to set. Must match the pattern 'ge[0-9]{5}'.
  * @params genreName, genreDescription, genreImage.
  */
