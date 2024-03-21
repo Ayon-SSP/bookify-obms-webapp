@@ -112,6 +112,4 @@ public class Author implements Comparable<Author> {
     public int compareTo(Author o) {
         return Integer.parseInt(this.authorId.substring(2)) - Integer.parseInt(o.authorId.substring(2));
     }
-    
-
 }
