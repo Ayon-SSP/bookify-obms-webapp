@@ -52,6 +52,7 @@ public class DBConnection {
             synchronized (DBConnection.class) {
                 if (dbConnection == null) {
                     dbConnection = new DBConnection();
+					System.out.println("DB Connected");
                 }
             }
         }
@@ -63,7 +64,7 @@ public class DBConnection {
         try {
             connection = DriverManager.getConnection(url, username, password);
             if (!connection.isClosed()) {
-                System.out.println("Connected");
+                System.out.println("return DB Connection with URL: " + url);
                 return connection;
             }
         } catch (SQLException e) {

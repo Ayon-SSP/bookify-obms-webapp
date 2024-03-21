@@ -3,6 +3,9 @@ package com.bookify;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import com.bookify.util.DBConnection;
 
 /**
@@ -23,15 +26,14 @@ public class DBConnectionTest {
 		assertNotNull(DBConnection.getDBConnection().getConnection());
 	}
 	
-//Explain you how Junit Test shows failed test	
-	// @Test
-	// public void testConnectionIsClosed() {
-	// 	try {
-	// 		Connection connection = DBConnection.getDbConnnection().getConnection();
-	// 		connection.close();
-	// 		assertNotNull(connection);
-	// 	} catch (SQLException e) {
-	// 		e.printStackTrace();
-	// 	}
-	// }
+	@Test
+	public void testConnectionIsClosed() {
+		try {
+			Connection connection = DBConnection.getDBConnection().getConnection();
+			connection.close();
+			assertNotNull(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
