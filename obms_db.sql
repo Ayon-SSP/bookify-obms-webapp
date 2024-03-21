@@ -36,3 +36,5 @@ WHERE book_id = 'bo16118';
 select * from tbl_book;
 
 select * from tbl_customer;
+
+select * from tbl_user_review;
