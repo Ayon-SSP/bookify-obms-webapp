@@ -1,6 +1,5 @@
 package com.bookify.model;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class Book implements Comparable<Book> {
     private Set<Genre> genres;
     private String bookTitle;
     private String bookDescription;
-    private Date bookPublishDate;
+    private String bookPublishDate;
     private double bookPrice;
     private boolean discontinued;
     private int bookPages;
@@ -44,7 +43,7 @@ public class Book implements Comparable<Book> {
         super();
     }
 
-    public Book(String bookId, Author author, BookCategory category, Set<Genre> genres, String bookTitle, String bookDescription, Date bookPublishDate, double bookPrice, boolean discontinued, int bookPages, double bookDiscount, int availableQuantity, String bookLanguage, String bookPublisher, String bookIsbn, String bookCoverImage) {
+    public Book(String bookId, Author author, BookCategory category, Set<Genre> genres, String bookTitle, String bookDescription, String bookPublishDate, double bookPrice, boolean discontinued, int bookPages, double bookDiscount, int availableQuantity, String bookLanguage, String bookPublisher, String bookIsbn, String bookCoverImage) {
         this.bookId = bookId;
         this.author = author;
         this.category = category;
@@ -122,11 +121,11 @@ public class Book implements Comparable<Book> {
         this.bookDescription = bookDescription;
     }
 
-    public Date getBookPublishDate() {
+    public String getBookPublishDate() {
         return bookPublishDate;
     }
 
-    public void setBookPublishDate(Date bookPublishDate) {
+    public void setBookPublishDate(String bookPublishDate) {
         this.bookPublishDate = bookPublishDate;
     }
 
@@ -255,3 +254,10 @@ public class Book implements Comparable<Book> {
         return Integer.parseInt(this.bookId.substring(2)) - Integer.parseInt(o.bookId.substring(2));
     }
 }
+
+/*
+ * 
+ * @Object book1, author1, genre1, genre2, category1, userReview1, userReview2
+ * 
+ * book1.author1.<all author data>/<all category data>/genres.<all genre data>/<all book data>/userReviews.<all userReview data>.
+ */
