@@ -1,6 +1,6 @@
 package com.bookify.model;
 
-/**
+/*
  * Represents a UserReview model.
  * 
  * @Author @Ayon-SSP
@@ -30,19 +30,19 @@ public class UserReview implements Comparable<UserReview> {
         this.reviewDate = reviewDate;
     }
 
-    public String getBook() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBook(String bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
-    public String getCustomer() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomer(String customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 import com.bookify.model.UserReview;
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * Represents a DAO for the UserReview model.
  * 
  * @Author @Ayon-SSP
@@ -39,14 +39,14 @@ public class UserReviewDao implements IDao<UserReview> {
         Connection connection = dbConnection.getConnection();
         String sqlQuery = "INSERT INTO tbl_user_review VALUES (?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1, userReview.getBook());
-        preparedStatement.setString(2, userReview.getCustomer());
+        preparedStatement.setString(1, userReview.getBookId());
+        preparedStatement.setString(2, userReview.getCustomerId());
         preparedStatement.setDouble(3, userReview.getBookRating());
         preparedStatement.setString(4, userReview.getBookReview());
         preparedStatement.setDate(5, Date.valueOf(userReview.getReviewDate()));
 
         int result = preparedStatement.executeUpdate();
-        if (result > 0) System.out.println("UserReviewDao.create() result: " + result + " | " + userReview.getBook() + " inserted!");
+        if (result > 0) System.out.println("UserReviewDao.create() result: " + result + " | " + userReview.getBookId() + " " + userReview.getCustomerId() + " inserted!");
 
         return result > 0 ? userReview : null;
     }
@@ -59,7 +59,7 @@ public class UserReviewDao implements IDao<UserReview> {
         Connection connection = dbConnection.getConnection();
         String sqlQuery = "UPDATE tbl_user_review SET customer_id = ?, book_rating = ?, book_review = ?, review_date = ? WHERE book_id = ? AND customer_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-        preparedStatement.setString(1, userReview.getCustomer());
+        preparedStatement.setString(1, userReview.getCustomerId());
         preparedStatement.setDouble(2, userReview.getBookRating());
         preparedStatement.setString(3, userReview.getBookReview());
         preparedStatement.setDate(4, Date.valueOf(userReview.getReviewDate()));
