@@ -43,6 +43,10 @@ public class Book implements Comparable<Book> {
         super();
     }
 
+    public Book(String bookId) {
+        this.bookId = bookId;
+    }
+
     public Book(String bookId, Author author, BookCategory category, Set<Genre> genres, String bookTitle, String bookDescription, String bookPublishDate, double bookPrice, boolean discontinued, int bookPages, double bookDiscount, int availableQuantity, String bookLanguage, String bookPublisher, String bookIsbn, String bookCoverImage) {
         this.bookId = bookId;
         this.author = author;

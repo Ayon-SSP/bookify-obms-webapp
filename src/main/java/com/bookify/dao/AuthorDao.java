@@ -11,7 +11,7 @@ import java.util.List;
 import com.bookify.model.Author;
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * Represents a DAO for the Author model.
  * 
  * @Author @Ayon-SSP

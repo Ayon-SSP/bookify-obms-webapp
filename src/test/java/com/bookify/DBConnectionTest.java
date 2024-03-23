@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * This class is responsible for testing the DBConnection class.
  * It ensures that the database connection is correctly established and managed.
  *

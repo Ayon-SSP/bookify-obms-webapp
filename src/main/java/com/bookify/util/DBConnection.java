@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-/**
+/*
  * This class is responsible for managing the database connection.
  * It follows the Singleton design pattern to ensure only one instance exists.
  *

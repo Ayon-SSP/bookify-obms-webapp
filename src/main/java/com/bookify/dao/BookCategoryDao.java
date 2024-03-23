@@ -10,7 +10,7 @@ import java.util.List;
 import com.bookify.model.BookCategory;
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * Represents a DAO for the BookCategory model.
  * 
  * @author @Ayon-SSP

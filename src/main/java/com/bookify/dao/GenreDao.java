@@ -10,7 +10,7 @@ import java.util.List;
 import com.bookify.model.Genre;
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * Represents a DAO for the Genre model.
  * 
  * @Author @Ayon-SSP

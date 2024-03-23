@@ -2,7 +2,7 @@ package com.bookify.dao;
 
 import java.util.List;
 
-/**
+/*
  * Represents a generic DAO interface.
  * 
  * @author @Ayon-SSP

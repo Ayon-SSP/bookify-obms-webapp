@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import com.bookify.model.Book;
 import com.bookify.util.DBConnection;
 
-/**
+/*
  * Represents a DAO for the Book model.
  * 
  * @Author @Ayon-SSP
