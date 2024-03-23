@@ -38,3 +38,39 @@ select * from tbl_book;
 select * from tbl_customer;
 
 select * from tbl_user_review;
+
+select * from tbl_customer_address;
+
+
+-- Create table for storing customer address information
+CREATE TABLE tbl_customer_address (
+    customer_address_id VARCHAR2(10) NOT NULL,
+    address_type VARCHAR2(16) NOT NULL,
+    customer_id VARCHAR2(10) NOT NULL, 
+    address_line1 VARCHAR2(255),
+    address_line2 VARCHAR2(255),
+    address_line3 VARCHAR2(255),
+    city VARCHAR2(100),
+    state VARCHAR2(100),
+    country VARCHAR2(100),
+    postalcode VARCHAR2(6),
+    landmark VARCHAR2(255),
+    phone VARCHAR2(24), 
+CONSTRAINT pk_customer_address 
+    PRIMARY KEY (customer_address_id), 
+CONSTRAINT ck_customer_address_id
+    CHECK (REGEXP_LIKE(customer_address_id, 'ca[0-9]{5}')),
+-- Create a unique constraint for (address_type, customer_id)
+CONSTRAINT ck_address_type_customer_id
+    UNIQUE (address_type, customer_id),
+CONSTRAINT fk_customer_address_customer 
+    FOREIGN KEY (customer_id) 
+    REFERENCES tbl_customer(customer_id)
+    ON DELETE CASCADE
+)
+/
+
+INSERT INTO tbl_customer_address VALUES ('ca10001', 'Shipping', 'cu00001', '123 Main St', 'Apt 101', 'Building A', 'New York', 'NY', 'USA', '10001', 'Near Central Park', '123-456-7890');
+
+-- UPDATE EVERYTHING IN THE ABOVE ca10001
+UPDATE tbl_customer_address SET address_line1 = '654 Main St', address_line2 = 'Apt 101', address_line3 = 'Building A', city = 'New York', state = 'NY', country = 'USA', postalcode = '10001', landmark = 'Near Central Park', phone = '123-456-7890' WHERE customer_id = 'cu00001' AND address_type = 'Shipping';
