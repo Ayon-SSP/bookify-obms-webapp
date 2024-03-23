@@ -82,28 +82,7 @@ public class ShoppingCartItemDao implements IDao<ShoppingCartItem> {
 
         return deleteResult > 0;
     }
-
-    /*
-CREATE TABLE tbl_shopping_cart 
-(
-    customer_id VARCHAR2(10) NOT NULL, 
-    book_id VARCHAR2(10) NOT NULL, 
-    quantity NUMBER NOT NULL,
-CONSTRAINT pk_shopping_cart
-    PRIMARY KEY (customer_id, book_id),
-CONSTRAINT ck_quantity  
-    CHECK ((quantity > 0)),
-CONSTRAINT fk_shopping_cart_customer 
-    FOREIGN KEY (customer_id) 
-    REFERENCES tbl_customer(customer_id)
-    ON DELETE CASCADE,
-CONSTRAINT fk_shopping_cart_book 
-    FOREIGN KEY (book_id) 
-    REFERENCES tbl_book(book_id)
-    ON DELETE CASCADE
-)
-/
-     */
+    
     @Override
     public ShoppingCartItem findOne(String customerBookId) throws Exception {
         String[] customerBookIdArray = customerBookId.split("-");
