@@ -29,7 +29,6 @@ public class BookServiceTest {
         try {
             System.out.println(bookService.book);
             bookService.book.getUserReviews().stream().forEach(System.out::println);
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,8 +37,8 @@ public class BookServiceTest {
     @Test
     public void testGetBookRating() {
         try {
-            assertTrue(bookService.getBookRating("bo00001") > -1);
-            System.out.println(bookService.getBookRating("bo00001"));
+            assertTrue(bookService.getBookRating() > -1);
+            System.out.println(bookService.getBookRating());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,6 +49,16 @@ public class BookServiceTest {
         try {
             assertNotNull(bookService.getCustomerDetails("cu00001"));
             System.out.println(bookService.getCustomerDetails("cu00001"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetBookReview() {
+        try {
+            assertNotNull(bookService.addBookToCart(3));
+            System.out.println(bookService.addBookToCart(7));
         } catch (Exception e) {
             e.printStackTrace();
         }
