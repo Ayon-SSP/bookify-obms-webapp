@@ -23,6 +23,12 @@ public class BookCategoryDao implements IDao<BookCategory> {
     private DBConnection dbConnection;
     private List<BookCategory> bookCategories = new ArrayList<>();
 
+    private static final String INSERT_BOOKCATEGORYS_SQL = "INSERT INTO tbl_book_category VALUES (?,?,?,?)";
+    private static final String UPDATE_BOOKCATEGORYS_SQL = "UPDATE tbl_book_category SET category_name = ?, category_description = ?, category_image = ? WHERE category_id = ?";
+    private static final String DELETE_BOOKCATEGORYS_SQL = "DELETE FROM tbl_book_category WHERE category_id = ?";
+    private static final String SELECT_BOOKCATEGORY_BY_ID = "SELECT * FROM tbl_book_category WHERE category_id = ?";
+    private static final String SELECT_ALL_BOOKCATEGORYS = "SELECT * FROM tbl_book_category";
+
     public BookCategoryDao() {
         super();
     }
@@ -36,8 +42,7 @@ public class BookCategoryDao implements IDao<BookCategory> {
     public BookCategory create(BookCategory bookCategory) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "INSERT INTO tbl_book_category VALUES (?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOKCATEGORYS_SQL);
         preparedStatement.setString(1, bookCategory.getCategoryId());
         preparedStatement.setString(2, bookCategory.getCategoryName());
         preparedStatement.setString(3, bookCategory.getCategoryDescription());
@@ -53,8 +58,7 @@ public class BookCategoryDao implements IDao<BookCategory> {
     public boolean update(String categoryId, BookCategory bookCategory) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "UPDATE tbl_book_category SET category_name = ?, category_description = ?, category_image = ? WHERE category_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOKCATEGORYS_SQL);
         preparedStatement.setString(1, bookCategory.getCategoryName());
         preparedStatement.setString(2, bookCategory.getCategoryDescription());
         preparedStatement.setString(3, bookCategory.getCategoryImage());
@@ -70,8 +74,7 @@ public class BookCategoryDao implements IDao<BookCategory> {
     public boolean delete(String categoryId) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "DELETE FROM tbl_book_category WHERE category_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOKCATEGORYS_SQL);
         preparedStatement.setString(1, categoryId);
 
         int deleteResult = preparedStatement.executeUpdate();
@@ -83,8 +86,7 @@ public class BookCategoryDao implements IDao<BookCategory> {
         BookCategory bookCategory = null;
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "SELECT * FROM tbl_book_category WHERE category_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOKCATEGORY_BY_ID);
         preparedStatement.setString(1, categoryId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -102,12 +104,9 @@ public class BookCategoryDao implements IDao<BookCategory> {
 
         Connection connection = dbConnection.getConnection();
         Statement selectStatement = connection.createStatement();
-
-        final String selectQuery = "SELECT * FROM tbl_book_category";
-        ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_BOOKCATEGORYS);
 
         while (resultSet.next()) {
-
             BookCategory bookCategory = new BookCategory(resultSet.getString("category_id"),
                     resultSet.getString("category_name"),
                     resultSet.getString("category_description"), resultSet.getString("category_image"));

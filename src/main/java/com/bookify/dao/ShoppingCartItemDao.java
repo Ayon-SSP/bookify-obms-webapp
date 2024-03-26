@@ -24,6 +24,12 @@ public class ShoppingCartItemDao implements IDao<ShoppingCartItem> {
     private DBConnection dbConnection;
     private List<ShoppingCartItem> shoppingCartItems = new ArrayList<>();
 
+    // private static final String INSERT_SHOPPINGCARTITEMS_SQL = "INSERT INTO tbl_author VALUES (?,?,?,?,?,?)";
+    // private static final String UPDATE_SHOPPINGCARTITEMS_SQL = "UPDATE tbl_author SET author_name = ?, author_bio = ?, author_score = ?, author_image = ?, author_birth_date = ? WHERE author_id = ?";
+    // private static final String DELETE_SHOPPINGCARTITEMS_SQL = "DELETE FROM tbl_author WHERE author_id = ?";
+    // private static final String SELECT_SHOPPINGCARTITEM_BY_ID = "SELECT * FROM tbl_author WHERE author_id = ?";
+    // private static final String SELECT_ALL_SHOPPINGCARTITEMS = "SELECT * FROM tbl_author";
+
     public ShoppingCartItemDao() {
         super();
     }

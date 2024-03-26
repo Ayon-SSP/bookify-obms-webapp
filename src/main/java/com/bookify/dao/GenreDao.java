@@ -24,6 +24,12 @@ public class GenreDao implements IDao<Genre> {
     private DBConnection dbConnection;
     private List<Genre> genres = new ArrayList<>();
 
+    private static final String INSERT_GENRES_SQL = "INSERT INTO tbl_genre VALUES (?,?,?,?)";
+    private static final String UPDATE_GENRES_SQL = "UPDATE tbl_genre SET genre_name = ?, genre_description = ?, genre_image = ? WHERE genre_id = ?";
+    private static final String DELETE_GENRES_SQL = "DELETE FROM tbl_genre WHERE genre_id = ?";
+    private static final String SELECT_GENRE_BY_ID = "SELECT * FROM tbl_genre WHERE genre_id = ?";
+    private static final String SELECT_ALL_GENRES = "SELECT * FROM tbl_genre";
+
     public GenreDao() {
         super();
     }
@@ -37,8 +43,7 @@ public class GenreDao implements IDao<Genre> {
     public Genre create(Genre genre) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "INSERT INTO tbl_genre VALUES (?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GENRES_SQL);
         preparedStatement.setString(1, genre.getGenreId());
         preparedStatement.setString(2, genre.getGenreName());
         preparedStatement.setString(3, genre.getGenreDescription());
@@ -54,8 +59,7 @@ public class GenreDao implements IDao<Genre> {
     public boolean update(String genreId, Genre genre) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "UPDATE tbl_genre SET genre_name = ?, genre_description = ?, genre_image = ? WHERE genre_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_GENRES_SQL);
         preparedStatement.setString(1, genre.getGenreName());
         preparedStatement.setString(2, genre.getGenreDescription());
         preparedStatement.setString(3, genre.getGenreImage());
@@ -71,8 +75,7 @@ public class GenreDao implements IDao<Genre> {
     public boolean delete(String genreId) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "DELETE FROM tbl_genre WHERE genre_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRES_SQL);
         preparedStatement.setString(1, genreId);
 
         int deleteResult = preparedStatement.executeUpdate();
@@ -84,8 +87,7 @@ public class GenreDao implements IDao<Genre> {
         Genre genre = null;
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "SELECT * FROM tbl_genre WHERE genre_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_GENRE_BY_ID);
         preparedStatement.setString(1, genreId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -103,12 +105,9 @@ public class GenreDao implements IDao<Genre> {
 
         Connection connection = dbConnection.getConnection();
         Statement selectStatement = connection.createStatement();
-
-        final String selectQuery = "SELECT * FROM tbl_genre";
-        ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_GENRES);
 
         while (resultSet.next()) {
-            
             Genre genre = new Genre(resultSet.getString("genre_id"),
                     resultSet.getString("genre_name"),
                     resultSet.getString("genre_description"), resultSet.getString("genre_image"));

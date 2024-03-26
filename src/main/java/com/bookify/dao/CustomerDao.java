@@ -23,6 +23,12 @@ public class CustomerDao implements IDao<Customer> {
     private DBConnection dbConnection;
     private List<Customer> customers = new ArrayList<>();
 
+    private static final String INSERT_CUSTOMERS_SQL = "INSERT INTO tbl_customer (customer_id, customer_name, customer_email, customer_phone1, password_hash) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_CUSTOMERS_SQL = "UPDATE tbl_customer SET customer_name = ?, customer_email = ?, customer_phone1 = ?, password_hash = ? WHERE customer_id = ?";
+    private static final String DELETE_CUSTOMERS_SQL = "DELETE FROM tbl_customer WHERE customer_id = ?";
+    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM tbl_customer WHERE customer_id = ?";
+    private static final String SELECT_ALL_CUSTOMERS = "SELECT * FROM tbl_customer";
+
     public CustomerDao() {
         super();
     }
@@ -35,8 +41,7 @@ public class CustomerDao implements IDao<Customer> {
     @Override
     public Customer create(Customer customer) throws Exception {
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "INSERT INTO tbl_customer (customer_id, customer_name, customer_email, customer_phone1, password_hash) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CUSTOMERS_SQL);
         preparedStatement.setString(1, customer.getCustomerId());
         preparedStatement.setString(2, customer.getCustomerName());
         preparedStatement.setString(3, customer.getCustomerEmail());
@@ -52,8 +57,7 @@ public class CustomerDao implements IDao<Customer> {
     @Override
     public boolean update(String customerId, Customer customer) throws Exception {
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "UPDATE tbl_customer SET customer_name = ?, customer_email = ?, customer_phone1 = ?, password_hash = ? WHERE customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMERS_SQL);
         preparedStatement.setString(1, customer.getCustomerName());
         preparedStatement.setString(2, customer.getCustomerEmail());
         preparedStatement.setString(3, customer.getCustomerPhone1());
@@ -69,8 +73,7 @@ public class CustomerDao implements IDao<Customer> {
     @Override
     public boolean delete(String customerId) throws Exception {
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "DELETE FROM tbl_customer WHERE customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMERS_SQL);
         preparedStatement.setString(1, customerId);
         
         int deleteResult = preparedStatement.executeUpdate();
@@ -84,8 +87,7 @@ public class CustomerDao implements IDao<Customer> {
         Customer customer = null;
 
         Connection connection = dbConnection.getConnection();
-        String selectQuery = "SELECT * FROM tbl_customer WHERE customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUSTOMER_BY_ID);
         preparedStatement.setString(1, customerId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -105,9 +107,7 @@ public class CustomerDao implements IDao<Customer> {
     public List<Customer> findAll() throws Exception {
         Connection connection = dbConnection.getConnection();
         Statement selectStatement = connection.createStatement();
-
-        final String selectQuery = "SELECT * FROM tbl_customer";
-        ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_CUSTOMERS);
 
         while (resultSet.next()) {
             Customer customer = new Customer();

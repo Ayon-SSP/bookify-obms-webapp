@@ -24,6 +24,12 @@ public class AuthorDao implements IDao<Author> {
     private DBConnection dbConnection;
     private List<Author> authors = new ArrayList<>();
 
+    private static final String INSERT_AUTHORS_SQL = "INSERT INTO tbl_author VALUES (?,?,?,?,?,?)";
+    private static final String UPDATE_AUTHORS_SQL = "UPDATE tbl_author SET author_name = ?, author_bio = ?, author_score = ?, author_image = ?, author_birth_date = ? WHERE author_id = ?";
+    private static final String DELETE_AUTHORS_SQL = "DELETE FROM tbl_author WHERE author_id = ?";
+    private static final String SELECT_AUTHOR_BY_ID = "SELECT * FROM tbl_author WHERE author_id = ?";
+    private static final String SELECT_ALL_AUTHORS = "SELECT * FROM tbl_author";
+
     public AuthorDao() {
         super();
     }
@@ -37,8 +43,7 @@ public class AuthorDao implements IDao<Author> {
     public Author create(Author author) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "INSERT INTO tbl_author VALUES (?,?,?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AUTHORS_SQL);
         preparedStatement.setString(1, author.getAuthorId());
         preparedStatement.setString(2, author.getAuthorName());
         preparedStatement.setString(3, author.getAuthorBio());
@@ -56,8 +61,7 @@ public class AuthorDao implements IDao<Author> {
     public boolean update(String authorId, Author author) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "UPDATE tbl_author SET author_name = ?, author_bio = ?, author_score = ?, author_image = ?, author_birth_date = ? WHERE author_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_AUTHORS_SQL);
         preparedStatement.setString(1, author.getAuthorName());
         preparedStatement.setString(2, author.getAuthorBio());
         preparedStatement.setDouble(3, author.getAuthorScore());
@@ -75,8 +79,7 @@ public class AuthorDao implements IDao<Author> {
     public boolean delete(String authorId) throws Exception {
         
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "DELETE FROM tbl_author WHERE author_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_AUTHORS_SQL);
         preparedStatement.setString(1, authorId);
 
         int deleteResult = preparedStatement.executeUpdate();
@@ -88,8 +91,7 @@ public class AuthorDao implements IDao<Author> {
         Author author = null;
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "SELECT * FROM tbl_author WHERE author_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_AUTHOR_BY_ID);
         preparedStatement.setString(1, authorId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -108,12 +110,9 @@ public class AuthorDao implements IDao<Author> {
 
         Connection connection = dbConnection.getConnection();
         Statement selectStatement = connection.createStatement();
-
-        final String selectQuery = "SELECT * FROM tbl_author";
-        ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_AUTHORS);
 
         while (resultSet.next()) {
-
             Author author = new Author(resultSet.getString("author_id"),
                     resultSet.getString("author_name"),
                     resultSet.getString("author_bio"), resultSet.getDouble("author_score"),

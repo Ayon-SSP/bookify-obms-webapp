@@ -24,6 +24,12 @@ public class UserReviewDao implements IDao<UserReview> {
     private DBConnection dbConnection;
     private List<UserReview> userReviews = new ArrayList<>();
 
+    private static final String INSERT_USERREVIEWS_SQL = "INSERT INTO tbl_user_review VALUES (?,?,?,?,?)";
+    private static final String UPDATE_USERREVIEWS_SQL = "UPDATE tbl_user_review SET customer_id = ?, book_rating = ?, book_review = ?, review_date = ? WHERE book_id = ? AND customer_id = ?";
+    private static final String DELETE_USERREVIEWS_SQL = "DELETE FROM tbl_user_review WHERE book_id = ? AND customer_id = ?";
+    private static final String SELECT_USERREVIEW_BY_ID = "SELECT * FROM tbl_user_review WHERE book_id = ? AND customer_id = ?";
+    private static final String SELECT_ALL_USERREVIEWS = "SELECT * FROM tbl_user_review";
+
     public UserReviewDao() {
         super();
     }
@@ -37,8 +43,7 @@ public class UserReviewDao implements IDao<UserReview> {
     public UserReview create(UserReview userReview) throws Exception {
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "INSERT INTO tbl_user_review VALUES (?,?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERREVIEWS_SQL);
         preparedStatement.setString(1, userReview.getBookId());
         preparedStatement.setString(2, userReview.getCustomerId());
         preparedStatement.setDouble(3, userReview.getBookRating());
@@ -57,8 +62,7 @@ public class UserReviewDao implements IDao<UserReview> {
         String bookId = bookIdCustomerIdArray[0], customerId = bookIdCustomerIdArray[1];
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "UPDATE tbl_user_review SET customer_id = ?, book_rating = ?, book_review = ?, review_date = ? WHERE book_id = ? AND customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERREVIEWS_SQL);
         preparedStatement.setString(1, userReview.getCustomerId());
         preparedStatement.setDouble(2, userReview.getBookRating());
         preparedStatement.setString(3, userReview.getBookReview());
@@ -78,8 +82,7 @@ public class UserReviewDao implements IDao<UserReview> {
         String bookId = bookIdCustomerIdArray[0], customerId = bookIdCustomerIdArray[1];
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "DELETE FROM tbl_user_review WHERE book_id = ? AND customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERREVIEWS_SQL);
         preparedStatement.setString(1, bookId);
         preparedStatement.setString(2, customerId);
 
@@ -95,8 +98,7 @@ public class UserReviewDao implements IDao<UserReview> {
         UserReview userReview = null;
 
         Connection connection = dbConnection.getConnection();
-        String sqlQuery = "SELECT * FROM tbl_user_review WHERE book_id = ? AND customer_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USERREVIEW_BY_ID);
         preparedStatement.setString(1, bookId);
         preparedStatement.setString(2, customerId);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -117,9 +119,7 @@ public class UserReviewDao implements IDao<UserReview> {
 
         Connection connection = dbConnection.getConnection();
         Statement selectStatement = connection.createStatement();
-
-        final String selectQuery = "SELECT * FROM tbl_user_review";
-        ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_USERREVIEWS);
 
         while (resultSet.next()) {
             UserReview userReview = new UserReview(resultSet.getString("book_id"),

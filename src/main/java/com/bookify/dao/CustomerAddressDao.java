@@ -23,6 +23,12 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
     private DBConnection dbConnection;
     private List<CustomerAddress> customerAddresses = new ArrayList<>();
 
+    private static final String INSERT_CUSTOMERADDRESSES_SQL = "INSERT INTO tbl_customer_address (customer_address_id, address_type, customer_id, address_line1, address_line2, address_line3, city, state, country, postalcode, landmark, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_CUSTOMERADDRESSES_SQL = "UPDATE tbl_customer_address SET address_line1 = ?, address_line2 = ?, address_line3 = ?, city = ?, state = ?, country = ?, postalcode = ?, landmark = ?, phone = ? WHERE customer_id = ? AND address_type = ?";
+    private static final String DELETE_CUSTOMERADDRESSES_SQL = "DELETE FROM tbl_customer_address WHERE customer_id = ? AND address_type = ?";
+    private static final String SELECT_CUSTOMERADDRESS_BY_ID = "SELECT * FROM tbl_customer_address WHERE customer_id = ? AND address_type = ?";
+    private static final String SELECT_ALL_CUSTOMERADDRESSES = "SELECT * FROM tbl_customer_address";
+
     public CustomerAddressDao() {
         super();
     }
@@ -35,8 +41,7 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
     @Override
     public CustomerAddress create(CustomerAddress customerAddress) throws Exception {
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "INSERT INTO tbl_customer_address (customer_address_id, address_type, customer_id, address_line1, address_line2, address_line3, city, state, country, postalcode, landmark, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CUSTOMERADDRESSES_SQL);
         preparedStatement.setString(1, customerAddress.getCustomerAddressId());
         preparedStatement.setString(2, customerAddress.getAddressType());
         preparedStatement.setString(3, customerAddress.getCustomerId());
@@ -62,8 +67,7 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
         String customerId = customerAddressTypeIdArray[0], addressType = customerAddressTypeIdArray[1];
 
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "UPDATE tbl_customer_address SET address_line1 = ?, address_line2 = ?, address_line3 = ?, city = ?, state = ?, country = ?, postalcode = ?, landmark = ?, phone = ? WHERE customer_id = ? AND address_type = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMERADDRESSES_SQL);
         preparedStatement.setString(1, customerAddress.getAddressLine1());
         preparedStatement.setString(2, customerAddress.getAddressLine2());
         preparedStatement.setString(3, customerAddress.getAddressLine3());
@@ -88,8 +92,7 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
         String customerId = customerAddressTypeIdArray[0], addressType = customerAddressTypeIdArray[1];
 
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "DELETE FROM tbl_customer_address WHERE customer_id = ? AND address_type = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMERADDRESSES_SQL);
         preparedStatement.setString(1, customerId);
         preparedStatement.setString(2, addressType);
         
@@ -105,8 +108,7 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
         String customerId = customerAddressTypeIdArray[0], addressType = customerAddressTypeIdArray[1];
 
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "SELECT * FROM tbl_customer_address WHERE customer_id = ? AND address_type = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUSTOMERADDRESS_BY_ID);
         preparedStatement.setString(1, customerId);
         preparedStatement.setString(2, addressType);
         
@@ -134,9 +136,8 @@ public class CustomerAddressDao implements IDao<CustomerAddress> {
     @Override
     public List<CustomerAddress> findAll() throws Exception {
         Connection connection = dbConnection.getConnection();
-        final String sqlQuery = "SELECT * FROM tbl_customer_address";
         Statement selectStatement = connection.createStatement();
-        ResultSet resultSet = selectStatement.executeQuery(sqlQuery);
+        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL_CUSTOMERADDRESSES);
         
         while (resultSet.next()) {
             CustomerAddress customerAddress = new CustomerAddress();
