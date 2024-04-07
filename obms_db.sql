@@ -74,3 +74,76 @@ INSERT INTO tbl_customer_address VALUES ('ca10001', 'Shipping', 'cu00001', '123 
 
 -- UPDATE EVERYTHING IN THE ABOVE ca10001
 UPDATE tbl_customer_address SET address_line1 = '654 Main St', address_line2 = 'Apt 101', address_line3 = 'Building A', city = 'New York', state = 'NY', country = 'USA', postalcode = '10001', landmark = 'Near Central Park', phone = '123-456-7890' WHERE customer_id = 'cu00001' AND address_type = 'Shipping';
+
+
+select * from tbl_book;
+
+
+-- -------------------------------------------
+
+
+-- Create a nested table type for storing genre ids
+CREATE OR REPLACE
+    TYPE type_genre_id_list AS TABLE OF VARCHAR2(10)
+/
+
+-- Create table for storing book information
+CREATE TABLE tbl_book
+(
+    book_id VARCHAR2(10) NOT NULL,
+    author_id VARCHAR2(10) NOT NULL,
+    category_id VARCHAR2(10) NOT NULL,
+    genre_ids type_genre_id_list,
+    book_title VARCHAR2(100) NOT NULL,
+    book_description VARCHAR2(1000),
+    book_publish_date DATE,
+    book_price NUMBER,
+    discontinued NUMBER DEFAULT 0 NOT NULL,
+    book_pages NUMBER,
+    book_discount NUMBER DEFAULT 0,
+    available_quantity NUMBER,
+    book_language VARCHAR2(100),
+    book_publisher VARCHAR2(100),
+    book_isbn VARCHAR2(13),
+    book_cover_image VARCHAR2(255),
+CONSTRAINT pk_book
+    PRIMARY KEY (book_id),
+CONSTRAINT ck_book_id
+    CHECK (REGEXP_LIKE(book_id, 'bo[0-9]{5}')),
+CONSTRAINT ck_book_book_price   CHECK ((book_price > 0)),
+CONSTRAINT ck_discontinued   CHECK ((discontinued = 0 or discontinued = 1)),
+CONSTRAINT ck_book_pages   CHECK ((book_pages >= 0)),
+CONSTRAINT ck_book_discount   CHECK ((book_discount >= 0 AND book_discount <= 1)),
+CONSTRAINT ck_available_quantity   CHECK ((available_quantity >= 0)),
+CONSTRAINT fk_book_author 
+    FOREIGN KEY (author_id) 
+    REFERENCES tbl_author(author_id)
+    ON DELETE CASCADE,
+CONSTRAINT fk_book_category 
+    FOREIGN KEY (category_id) 
+    REFERENCES tbl_book_category(category_id)
+    ON DELETE CASCADE
+) NESTED TABLE genre_ids STORE AS genre_ids_table
+/
+
+-- display all the books with genre_id = ge00001
+SELECT * FROM tbl_book
+WHERE genre_ids IS NOT EMPTY 
+    AND (
+        SELECT * 
+        FROM TABLE(genre_ids) 
+        WHERE COLUMN_VALUE = 'ge00001') IS NOT NULL;
+
+select * from TBL_SHOPPING_CART
+where customer_id = 'cu00001' AND book_id = 'bo00001';
+
+DELETE FROM TBL_SHOPPING_CART
+WHERE customer_id = 'cu00001' AND book_id = 'bo00001';
+
+
+select * from TBL_WISHLIST where CUSTOMER_WISHLIST_ID = 'wi00008';
+select * from TBL_WISHLIST_ITEM where customer_id = 'cu00001' and CUSTOMER_WISHLIST_ID = 'wi00008';
+
+
+select * from TBL_ORDERS;
+select * from TBL_ORDER_DETAIL;
